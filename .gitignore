@@ -1,3 +1,5 @@
+*.xlsx
+
 # Logs
 logs
 *.log

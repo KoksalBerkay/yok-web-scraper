@@ -8,6 +8,7 @@ const url = "https://yokatlas.yok.gov.tr/netler.php";
 const data = [];
 const thElements = [];
 let a = 0;
+let i = 0;
 
 async function scrapeData() {
   // Launch a headless browser
@@ -142,5 +143,20 @@ async function scrapePageData(page, data, $) {
     console.log("TH ELEMENTS LENGTH: ", thElements.length);
     console.log("TH ELEMENTS IS ARRAY: ", Array.isArray(thElements));
   }
+
+  const h2Elements = await page.evaluate(() => {
+    const h2Elements = [];
+    const elements = document.querySelectorAll("h2.panel-title strong");
+    elements.forEach((element) => {
+      h2Elements.push(element.innerText.trim());
+    });
+    return h2Elements;
+  });
+
+  for (i; i < data.length; i++) {
+    data[i][1] = `(${h2Elements[0]}) ${data[i][1]}`;
+    console.log("DATA added: ", data[i][1]);
+  }
+
   a++;
 }
